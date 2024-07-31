@@ -1,0 +1,78 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+from mpl_toolkits.mplot3d import Axes3D
+
+# Data setup
+data = {
+    'City': ['Crestview-Fort Walton Beach-Destin', 'Daphne-Fairhope-Foley', 'Deltona-Daytona Beach-Ormond Beach', 'Gainesville', 'Homosassa Springs', 
+             'Lakeland-Winter Haven', 'Miami-Fort Lauderdale-Pompano Beach', 'Myrtle Beach-Conway-North Myrtle Beach', 'Naples-Marco Island', 
+             'Ocala', 'Orlando-Kissimmee-Sanford', 'Palm Bay-Melbourne-Titusville', 'Port St. Lucie', 'Sebastian-Vero Beach', 
+             'Tampa-St. Petersburg-Clearwater'],
+    'State': ['Florida', 'Alabama', 'Florida', 'Florida', 'Florida', 'Florida', 'Florida', 'South Carolina', 'Florida', 'Florida', 'Florida', 
+              'Florida', 'Florida', 'Florida', 'Florida'],
+    'Risk_Level': [7.5, 6.8, 7.2, 6.5, 6.9, 7.1, 7.8, 6.6, 7.4, 7.0, 7.3, 6.7, 7.6, 6.4, 7.9]
+}
+
+df = pd.DataFrame(data)
+
+# Ensure there are no infinite values in the dataset
+df.replace([np.inf, -np.inf], np.nan, inplace=True)
+
+# Bar Chart - Number of cities at risk in each state
+plt.figure(figsize=(10, 6))
+sns.countplot(data=df, x='State', palette='viridis')
+plt.title('Number of At-Risk Cities by State')
+plt.xlabel('State')
+plt.ylabel('Number of Cities')
+plt.show()
+
+# Pie Chart - Percentage distribution of at-risk cities by state
+plt.figure(figsize=(8, 8))
+df['State'].value_counts().plot.pie(autopct='%1.1f%%', colors=sns.color_palette('viridis', df['State'].nunique()))
+plt.title('Percentage Distribution of At-Risk Cities by State')
+plt.ylabel('')
+plt.show()
+
+# 3D Scatter Plot
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(df.index, df['Risk_Level'], zs=0, zdir='z', c=df['Risk_Level'], cmap='viridis')
+ax.set_xlabel('City Index')
+ax.set_ylabel('Risk Level')
+ax.set_zlabel('Risk Level')
+ax.set_title('3D Scatter Plot of At-Risk Cities')
+plt.show()
+
+# Interactive Line Chart using Plotly
+fig = px.line(df, x='City', y='Risk_Level', title='Risk Levels of At-Risk Cities', labels={'City':'City', 'Risk_Level':'Risk Level'}, color='State')
+fig.show()
+
+# Histogram - Distribution of Risk Levels
+plt.figure(figsize=(10, 6))
+sns.histplot(df['Risk_Level'], bins=8, kde=True, color='purple')
+plt.title('Distribution of Risk Levels')
+plt.xlabel('Risk Level')
+plt.ylabel('Frequency')
+plt.show()
+
+# Heatmap - Correlation between cities and their risk levels
+plt.figure(figsize=(10, 6))
+pivot_table = pd.pivot_table(df, values='Risk_Level', index='City', columns='State', fill_value=0)
+sns.heatmap(pivot_table, cmap='viridis', annot=True)
+plt.title('Heatmap of Risk Levels by City and State')
+plt.show()
+
+# Bubble Chart
+fig = px.scatter(df, x='City', y='Risk_Level', size='Risk_Level', color='State', title='Bubble Chart of Risk Levels by City', labels={'City':'City', 'Risk_Level':'Risk Level'})
+fig.show()
+
+# Box Plot - Spread and outliers of risk levels across states
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=df, x='State', y='Risk_Level', palette='viridis')
+plt.title('Box Plot of Risk Levels by State')
+plt.xlabel('State')
+plt.ylabel('Risk Level')
+plt.show()
