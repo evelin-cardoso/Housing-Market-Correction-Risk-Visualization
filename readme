@@ -1,0 +1,24 @@
+Housing Market Correction Risk Visualization
+This project visualizes the housing markets in the U.S. that face the highest risk of price correction according to the Parcl Labs report. Various charts, including 3D and interactive visualizations, are used to present the data in an informative and engaging manner.
+
+Table of Contents
+Introduction
+Data Sources
+Installation
+Usage
+Visualizations
+Number of At-Risk Cities by State
+Percentage Distribution of At-Risk Cities by State
+3D Scatter Plot
+Interactive Line Chart
+Distribution of Risk Levels
+Heatmap of Risk Levels by City and State
+Bubble Chart of Risk Levels by City
+Box Plot of Risk Levels by State
+Contributing
+License
+Introduction
+This project provides visual insights into the housing markets in the U.S. that are at the highest risk of price correction. The visualizations include 2D, 3D, and interactive charts created using Python libraries Matplotlib, Seaborn, and Plotly.
+
+Data Sources
+The data used in this project is sourced from the Parcl Labs report on housing market correction risk.
